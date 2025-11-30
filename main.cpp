@@ -2,12 +2,14 @@
 #include "ComplexPlane.h"
 #include <iostream>
 
+//Created by Aqila Nasiry on 11/24/25.
 using namespace sf;
 using namespace std;
 
 int main()
 {
-    // Get Desktop Resolution and divide by 2 for a windowed size
+    // Here to get desktop resolution should divide by 2 for a  
+      //windowed size
     unsigned int width = VideoMode::getDesktopMode().width / 2;
     unsigned int height = VideoMode::getDesktopMode().height / 2;
 
@@ -38,7 +40,7 @@ int main()
             
             if (event.type == Event::MouseButtonPressed)
             {
-                // Only register clicks inside the window
+                // Here nly register clicks inside the window
                 Vector2i mousePos = Mouse::getPosition(window);
                 if (mousePos.x >= 0 && mousePos.y >= 0 && 
                     mousePos.x < (int)width && mousePos.y < (int)height)
