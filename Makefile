@@ -1,18 +1,35 @@
-CXX = g++
-CXXFLAGS = -Wall -std=c++17
-LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
+# Compiler
+CC = g++
+CFLAGS = -std=c++11 -g -Wall
+
+# Detect OS to handle Mac vs Linux paths
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S),Darwin)
+	# Mac (Homebrew) Paths
+	INCLUDES = -I/opt/homebrew/include
+	LIBRARIES = -L/opt/homebrew/lib
+	LIBS = -lsfml-graphics -lsfml-window -lsfml-system
+endif
+
+ifeq ($(UNAME_S),Linux)
+	# Linux Standard Paths
+	INCLUDES = 
+	LIBRARIES = 
+	LIBS = -lsfml-graphics -lsfml-window -lsfml-system
+endif
 
 TARGET = mandelbrot
-OBJS = main.o ComplexPlane.o
+SRCS = main.cpp ComplexPlane.cpp
+OBJS = $(SRCS:.cpp=.o)
+
+all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CXX) -o $(TARGET) $(OBJS) $(LDFLAGS)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(TARGET) $(OBJS) $(LIBRARIES) $(LIBS)
 
-main.o: main.cpp ComplexPlane.h
-	$(CXX) $(CXXFLAGS) -c main.cpp
-
-ComplexPlane.o: ComplexPlane.cpp ComplexPlane.h
-	$(CXX) $(CXXFLAGS) -c ComplexPlane.cpp
+%.o: %.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -f $(TARGET) *.o
+	rm -f $(OBJS) $(TARGET)

@@ -3,48 +3,50 @@
 
 #include <SFML/Graphics.hpp>
 #include <complex>
+#include <iostream>
 #include <sstream>
-#include <cmath>
 
+using namespace sf;
+using namespace std;
+
+// Constants from the requirements
 const unsigned int MAX_ITER = 64;
-const float BASE_WIDTH = 4.0f;
-const float BASE_HEIGHT = 4.0f;
-const float BASE_ZOOM = 0.5f;
+const float BASE_WIDTH = 4.0;
+const float BASE_HEIGHT = 4.0;
+const float BASE_ZOOM = 0.5;
 
 enum class State { CALCULATING, DISPLAYING };
 
-class ComplexPlane : public sf::Drawable {
+class ComplexPlane : public Drawable
+{
 public:
+    // Constructor
     ComplexPlane(int pixelWidth, int pixelHeight);
 
-    // update and render control
-    void updateRender();                 // recalculates vertex colors when CALCULATING
+    // Actions
+    void draw(RenderTarget& target, RenderStates states) const override;
+    void updateRender();
     void zoomIn();
     void zoomOut();
-    void setCenter(sf::Vector2i mousePixel);
-    void setMouseLocation(sf::Vector2i mousePixel);
-    void loadText(sf::Text& text);        // fill text with center, mouse, size, zoom info
+    void setCenter(Vector2i mousePixel);
+    void setMouseLocation(Vector2i mousePixel);
+    void loadText(Text& text);
 
 private:
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    // Internal Helper Functions
+    size_t countIterations(complex<double> coord);
+    void iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b);
+    Vector2f mapPixelToCoords(Vector2i mousePixel);
 
-    // helpers required by the assignment
-    sf::Vector2f mapPixelToCoords(const sf::Vector2i& pixel) const;
-    size_t countIterations(const sf::Vector2f& coord) const;
-    void iterationsToRGB(size_t count, sf::Uint8& r, sf::Uint8& g, sf::Uint8& b) const;
-
-    // members
-    int m_pixelWidth;
-    int m_pixelHeight;
-    float m_aspectRatio;                // height / width
-
-    sf::Vector2f m_plane_center;        // real, imag
-    sf::Vector2f m_plane_size;          // width, height in complex plane
-    sf::Vector2f m_mouseLocation;       // complex coords under mouse (live)
-
-    int m_zoomCount;
+    // Member Variables
+    VertexArray m_vArray;
     State m_State;
-
-    sf::VertexArray m_vArray;           // Point for each pixel
+    Vector2f m_mouseLocation;
+    Vector2i m_pixel_size;
+    Vector2f m_plane_center;
+    Vector2f m_plane_size;
+    int m_zoomCount;
+    float m_aspectRatio;
 };
-#endif // COMPLEXPLANE_H
+
+#endif
