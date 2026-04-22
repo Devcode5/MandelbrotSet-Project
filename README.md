@@ -12,7 +12,7 @@ Progress & Results
 I kept a "before" version of the project to track my progress.
 Before Optimization:
 This version was single-threaded and used lower iterations, which made the edges look a bit blurry.
-![Project first Demo](Mandelbrot demo1.png)
+![Project first Demo](Mandelbrotdemo1.png)
 
 Final Version (After):
 The final version shown at the top uses all 8 threads and 256 iterations, making the render much sharper and more efficient.
