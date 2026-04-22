@@ -140,6 +140,7 @@ void ComplexPlane::loadText(Text& text)
     ss << "Cursor: (" << m_mouseLocation.x << ", " << m_mouseLocation.y << ")" << endl;
     ss << "Left-Click for Zoom In" << endl;
     ss <<  "Right-Click for Zoom Out" <<endl;
+    //Implementing dynamic hardware concurrency detection
     ss << "Threads Active: " << std::thread::hardware_concurrency() << endl;
     text.setString(ss.str());
 }
