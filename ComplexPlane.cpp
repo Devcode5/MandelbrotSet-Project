@@ -139,7 +139,8 @@ void ComplexPlane::loadText(Text& text)
     ss << "Center: (" << m_plane_center.x << ", " << m_plane_center.y << ")" << endl;
     ss << "Cursor: (" << m_mouseLocation.x << ", " << m_mouseLocation.y << ")" << endl;
     ss << "Left-Click for Zoom In" << endl;
-    ss <<  "Right-Click for Zoom Out";
+    ss <<  "Right-Click for Zoom Out" <<endl;
+    ss << "Threads Active: " << std::thread::hardware_concurrency() << endl;
     text.setString(ss.str());
 }
 
